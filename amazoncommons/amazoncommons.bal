@@ -18,18 +18,23 @@ import ballerina/crypto;
 import ballerina/encoding;
 import ballerina/time;
 
-final string DATE_FORMAT = "yyyyMMdd'T'HHmmss'Z'";
-final string SHORT_DATE_FORMAT = "yyyyMMdd";
-final string AWS_SIGN_ALGORITHM = "AWS4-HMAC-SHA256";
-public final string AMAZON_HOST = "amazonaws.com";
-public final string DEFAULT_REGION = "us-west-2";
+const DATE_FORMAT = "yyyyMMdd'T'HHmmss'Z'";
+const SHORT_DATE_FORMAT = "yyyyMMdd";
+const AWS_SIGN_ALGORITHM = "AWS4-HMAC-SHA256";
+public const AMAZON_HOST = "amazonaws.com";
+public const DEFAULT_REGION = "us-west-2";
 
 # Generates the Amzdate value given a specific time.
 # 
 # + time - The time to use
 # + return - The Amzdate value
 public function generateAmzdate(time:Time time) returns string {
-    return time:format(time, DATE_FORMAT);
+    var result = time:format(time, DATE_FORMAT);
+    if (result is string) {
+        return result;
+    } else {
+        panic result;
+    }
 }
 
 # Generates the Datestamp value given a specific time.
@@ -37,7 +42,12 @@ public function generateAmzdate(time:Time time) returns string {
 # + time - The time to use
 # + return - The Datestamp value
 public function generateDatestamp(time:Time time) returns string {
-    return time:format(time, SHORT_DATE_FORMAT);
+    var result = time:format(time, SHORT_DATE_FORMAT);
+    if (result is string) {
+        return result;
+    } else {
+        panic result;
+    }
 }
 
 # Populate the given headers map with the authorization header. All other headers must be passed into the
